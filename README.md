@@ -5,8 +5,6 @@
 - Node.js **18** oder neuer
 - **Cloudflare-Konto**
 
----
-
 # Installation
 
 ## 1. Backend (Cloudflare Worker + D1)
@@ -80,7 +78,10 @@ npx wrangler pages deploy dist --project-name sces
 Beim ersten Deployment:
 
 > **Create a new project**
+
 > **Production Branch:** `master`
+
+---
 
 # Lokale Entwicklung
 
@@ -98,6 +99,8 @@ npm run dev
 cd frontend
 npm run dev
 ```
+
+---
 
 # Sicherheitshinweise
 
