@@ -1,0 +1,10 @@
+.labels { display: flex; flex-direction: column; gap: 8px; }
+.labelsTitle { font-size: 13px; font-weight: 600; color: var(--text-muted); }
+.labelRow { display: flex; align-items: flex-start; gap: 10px; }
+.stars { flex: 0 0 86px; padding-top: 8px; color: var(--star); font-size: 12px; letter-spacing: 1px; white-space: nowrap; }
+.labelInput {
+  flex: 1; padding: 8px 10px; border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm); background: var(--surface); color: var(--text); font-size: 14px;
+  font-family: inherit; resize: none; overflow: hidden; line-height: 1.4;
+}
+.labelInput:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px var(--color-primary-soft); }

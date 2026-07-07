@@ -1,0 +1,15 @@
+.title { margin-bottom: 18px; }
+.tabs {
+  display: flex; gap: 4px; border-bottom: 1px solid var(--border);
+  margin-bottom: 22px; overflow-x: auto;
+}
+.tab {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: none; background: transparent; color: var(--text-muted);
+  padding: 12px 14px; font-weight: 600; font-size: 14px;
+  border-bottom: 2px solid transparent; white-space: nowrap;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+.panel { animation: fade 160ms ease; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }

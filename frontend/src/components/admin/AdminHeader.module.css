@@ -1,0 +1,22 @@
+.bar { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 20; }
+.inner {
+  max-width: var(--maxw); margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px;
+}
+.left { display: flex; align-items: center; gap: 12px; }
+.logo { color: var(--color-primary); font-size: 20px; }
+.back {
+  display: inline-flex; width: 34px; height: 34px; align-items: center; justify-content: center;
+  border: none; background: transparent; cursor: pointer;
+  border-radius: var(--radius-sm); color: var(--text-muted); text-decoration: none;
+}
+.back:hover { background: var(--bg); color: var(--text); }
+.brand { font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.01em; }
+.nav { display: flex; gap: 4px; }
+.iconLink {
+  display: inline-flex; width: 36px; height: 36px; align-items: center; justify-content: center;
+  border: none; background: transparent; color: var(--text-muted); border-radius: var(--radius-sm);
+  font-size: 16px; text-decoration: none; cursor: pointer;
+}
+.iconLink:hover { background: var(--bg); color: var(--color-primary); }

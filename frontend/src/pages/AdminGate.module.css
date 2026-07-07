@@ -1,0 +1,18 @@
+.wrap {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  background:
+    radial-gradient(900px 500px at 50% -10%, var(--green-100), transparent 70%),
+    var(--bg);
+}
+.card { width: 100%; max-width: 380px; text-align: center; }
+.logo {
+  width: 56px; height: 56px; margin: 0 auto 16px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--color-primary-soft); color: var(--color-primary);
+  border-radius: 16px; font-size: 24px;
+}
+.card h1 { font-size: 22px; margin-bottom: 6px; }
+.form { display: flex; flex-direction: column; gap: 14px; margin-top: 22px; text-align: left; }
+.error { color: var(--danger); font-size: 13px; margin: -4px 0 0; }

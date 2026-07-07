@@ -1,0 +1,35 @@
+.wrap {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+.stars {
+	display: flex;
+}
+.star {
+	border: none;
+	background: transparent;
+	padding: 4px;
+	color: var(--border-strong);
+	transition:
+		color var(--transition),
+		transform var(--transition);
+}
+.star:not(:disabled):active {
+	transform: scale(0.9);
+}
+.star.on {
+	color: var(--star);
+}
+.md .star {
+	font-size: 26px;
+}
+.sm .star {
+	font-size: 16px;
+	padding: 1px;
+}
+.label {
+	font-size: 13px;
+	color: var(--text-muted);
+	min-height: 18px;
+}

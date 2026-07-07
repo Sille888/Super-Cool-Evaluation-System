@@ -1,0 +1,98 @@
+.page { min-height: 100vh; background: var(--bg); padding-bottom: 40px; }
+
+.top {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 20;
+}
+.topInner {
+  max-width: 720px; margin: 0 auto;
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  padding: 16px 16px 10px;
+}
+.topInner h1 { font-size: 19px; }
+.progress { font-size: 13px; color: var(--text-muted); white-space: nowrap; flex-shrink: 0; }
+
+.pills {
+  max-width: 720px; margin: 0 auto;
+  display: flex; gap: 8px; padding: 0 16px 12px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid var(--border-strong); background: var(--surface);
+  color: var(--text-muted); padding: 7px 14px; border-radius: 999px;
+  font-size: 14px; font-weight: 600; white-space: nowrap; flex-shrink: 0;
+}
+.pill i { font-size: 12px; color: var(--color-primary); }
+.pillActive { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+.pillActive i { color: #fff; }
+
+.main { max-width: 720px; margin: 0 auto; padding: 22px 16px 0; }
+
+.groupHead { margin-bottom: 18px; }
+.groupHead h2 { font-size: 22px; }
+.participants { margin: 4px 0 0; color: var(--text-muted); font-size: 14px; }
+
+.criterion {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.missing { border-color: var(--danger); box-shadow: 0 0 0 3px var(--danger-soft); }
+
+.critHead { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.critHead h3 { font-size: 16px; }
+.req {
+  font-size: 11px; font-weight: 700; color: var(--warning);
+  background: #fdf4d6; padding: 3px 8px; border-radius: 999px;
+  text-transform: uppercase; letter-spacing: 0.03em; flex-shrink: 0;
+}
+.critDesc { margin: 6px 0 12px; font-size: 14px; color: var(--text-muted); }
+.criterion > :global(.label) { margin-top: 12px; }
+
+.skipBtn {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid var(--border-strong); background: var(--surface);
+  color: var(--text-muted); padding: 5px 11px; border-radius: 999px;
+  font-size: 12px; font-weight: 600; white-space: nowrap; flex-shrink: 0;
+  cursor: pointer; transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+.skipBtn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.skipBtnActive { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+.skipBtnActive:hover { background: var(--color-primary-hover); color: #fff; }
+
+.skippedNote {
+  display: flex; align-items: center; gap: 8px; margin: 4px 0 0;
+  color: var(--text-faint); font-size: 14px; font-style: italic;
+}
+
+.textarea {
+  width: 100%; margin-top: 12px;
+  padding: 11px 13px; border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm); background: var(--surface);
+  color: var(--text); resize: vertical; line-height: 1.5;
+}
+.textarea:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px var(--color-primary-soft); }
+
+.nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; }
+.nav > * { flex: 1; }
+.hint { text-align: center; color: var(--text-faint); font-size: 13px; margin: 12px 0 0; }
+
+.statePage {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 24px; gap: 8px; color: var(--text-muted);
+}
+.statePage > i { font-size: 38px; color: var(--border-strong); margin-bottom: 8px; }
+.statePage h1 { font-size: 26px; color: var(--text); }
+.doneIcon {
+  width: 76px; height: 76px; border-radius: 50%;
+  background: var(--color-primary-soft); color: var(--color-primary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 34px; margin-bottom: 12px;
+  animation: pop 220ms ease;
+}
+@keyframes pop { from { transform: scale(0.7); opacity: 0; } to { transform: none; opacity: 1; } }

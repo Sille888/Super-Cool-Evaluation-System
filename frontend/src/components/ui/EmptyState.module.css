@@ -1,0 +1,19 @@
+.wrap {
+	text-align: center;
+	padding: 40px 20px;
+	color: var(--text-muted);
+}
+.wrap i {
+	font-size: 26px;
+	color: var(--border-strong);
+	margin-bottom: 12px;
+}
+.title {
+	font-weight: 600;
+	color: var(--text);
+	margin: 0 0 4px;
+}
+.text {
+	margin: 0 0 16px;
+	font-size: 14px;
+}
