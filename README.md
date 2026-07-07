@@ -1,72 +1,108 @@
+# SCES – Super Cool Evaluation System
+
 ## Voraussetzungen
 
-- [Node.js](https://nodejs.org) 18+
-- Cloudflare-Konto
-
-## 1. Backend (Worker + D1) einrichten
-
-```bash
-cd worker
-npm install
-npx wrangler login
-npm run db:create
-```
-
-`db:create` gibt eine `database_id` aus. Diese in **`worker/wrangler.toml`** beim Feld `database_id` eintragen (Platzhalter `HIER_DEINE_DATABASE_ID_EINTRAGEN` ersetzen).
-
-```bash
-npm run db:init
-npm run deploy
-```
-
-Nach dem Deploy zeigt Wrangler die Worker-URL an, z. B.
-`https://sces-api.DEIN-SUBDOMAIN.workers.dev` – diese URL wird im Frontend gebraucht.
+- Node.js **18** oder neuer
+- **Cloudflare-Konto**
 
 ---
 
-## 2. Frontend (Pages) einrichten
+# Installation
+
+## 1. Backend (Cloudflare Worker + D1)
+
+Wechseln in das Worker-Verzeichnis:
 
 ```bash
-cd ../frontend
+cd worker
+```
+
+NPM-Pakete installieren:
+
+```bash
 npm install
 ```
 
-`.env`-Datei anlegen (Vorlage: `.env.example`) und die Worker-URL eintragen:
+Bei Cloudflare anmelden:
 
+```bash
+npx wrangler login
 ```
-VITE_API_URL=https://sces-api.DEIN-SUBDOMAIN.workers.dev
+
+D1-Datenbank erstellen:
+
+```bash
+npm run db:create
+```
+
+> Die ausgegebene `database_id` in `worker/wrangler.toml` eintragen.
+
+Initialisieren der Datenbank:
+
+```bash
+npm run db:init
+```
+
+Den Worker bei Cloudflare hochladen:
+
+```bash
+npm run deploy
+```
+
+> Die ausgegebene Worker-URL (z. B. `https://sces-api.example.workers.dev`) in `frontend/.env` als `VITE_API_URL` eingetragen.
+
+## 2. Frontend (Cloudflare Pages)
+
+Wechseln in das Frontend-Verzeichnis:
+
+```bash
+cd ../frontend
+```
+
+NPM-Pakete installieren:
+
+```bash
+npm install
 ```
 
 Build erstellen:
 
 ```bash
-npm run build      # Ergebnis liegt in frontend/dist
+npm run build
 ```
 
-### Auf Cloudflare Pages veröffentlichen
+Frontend auf Cloudflare Pages hochladen:
 
 ```bash
 npx wrangler pages deploy dist --project-name sces
 ```
 
-## Lokale Entwicklung
+Beim ersten Deployment:
 
-Zwei Terminals:
+> **Create a new project**
+> **Production Branch:** `master`
+
+# Lokale Entwicklung
+
+## Backend
 
 ```bash
-# Terminal 1 – Worker + lokale D1
 cd worker
-npm run db:init:local      # einmalig: lokale DB-Tabellen
-npm run dev                # läuft auf http://localhost:8787
-
-# Terminal 2 – Frontend
-cd frontend
-# .env: VITE_API_URL=http://localhost:8787
-npm run dev                # läuft auf http://localhost:5173
+npm run db:init:local
+npm run dev
 ```
 
-## Sicherheitshinweise
+## Frontend
 
-- Standardpasswort `admin123` unbedingt ändern.
-- Die API ist per CORS für alle Ursprünge geöffnet; Admin-Endpunkte sind durch das Passwort (per Header) geschützt. Das Passwort wird serverseitig nur als SHA-256-Hash gespeichert.
-- Bewertungslinks sind öffentlich und ohne Schutz gegen Mehrfachabgabe.
+```bash
+cd frontend
+npm run dev
+```
+
+# Sicherheitshinweise
+
+- Das Standardpasswort **`admin123`** sollte unmittelbar nach der ersten Inbetriebnahme geändert werden.
+- Die API ist per **CORS** für alle Ursprünge freigegeben.
+- Admin-Endpunkte sind ausschließlich über das Admin-Passwort (HTTP-Header) geschützt.
+- Das Passwort wird serverseitig ausschließlich als **SHA-256-Hash** gespeichert.
+- Bewertungslinks sind öffentlich zugänglich und besitzen **keinen Schutz gegen Mehrfachabgaben**.

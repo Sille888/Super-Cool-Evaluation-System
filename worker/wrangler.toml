@@ -2,9 +2,7 @@ name = "sces-api"
 main = "src/index.js"
 compatibility_date = "2024-09-23"
 
-# D1-Datenbank-Binding. database_id nach dem Anlegen der DB eintragen
-# (siehe README -> wrangler d1 create sces-db)
 [[d1_databases]]
 binding = "DB"
 database_name = "sces-db"
-database_id = "dbce247e-fb94-4326-a3f2-9c31c9a27f4d"
+database_id = "INSERT DATABASE_ID HERE"
