@@ -22,7 +22,9 @@ export default function AdminHeader({ back }) {
 							<i className="fa-solid fa-clipboard-check" />
 						</span>
 					)}
-					<span className={styles.brand}>Projektbewertung</span>
+					<span className={styles.brand}>
+						SCES<span className={styles.brandSub}> – Super Cool Evaluation System</span>
+					</span>
 				</div>
 				<nav className={styles.nav}>
 					<button className={styles.iconLink} onClick={() => navigate('/admin/settings')} title="Einstellungen">

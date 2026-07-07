@@ -20,7 +20,7 @@ npm run deploy
 ```
 
 Nach dem Deploy zeigt Wrangler die Worker-URL an, z. B.
-`https://bewertung-api.DEIN-SUBDOMAIN.workers.dev` – diese URL wird im Frontend gebraucht.
+`https://sces-api.DEIN-SUBDOMAIN.workers.dev` – diese URL wird im Frontend gebraucht.
 
 ---
 
@@ -34,7 +34,7 @@ npm install
 `.env`-Datei anlegen (Vorlage: `.env.example`) und die Worker-URL eintragen:
 
 ```
-VITE_API_URL=https://bewertung-api.DEIN-SUBDOMAIN.workers.dev
+VITE_API_URL=https://sces-api.DEIN-SUBDOMAIN.workers.dev
 ```
 
 Build erstellen:
@@ -46,7 +46,7 @@ npm run build      # Ergebnis liegt in frontend/dist
 ### Auf Cloudflare Pages veröffentlichen
 
 ```bash
-npx wrangler pages deploy dist --project-name bewertung
+npx wrangler pages deploy dist --project-name sces
 ```
 
 ## Lokale Entwicklung

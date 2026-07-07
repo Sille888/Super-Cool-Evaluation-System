@@ -12,7 +12,9 @@
   border-radius: var(--radius-sm); color: var(--text-muted); text-decoration: none;
 }
 .back:hover { background: var(--bg); color: var(--text); }
-.brand { font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.01em; }
+.brand { font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.01em; white-space: nowrap; }
+.brandSub { font-weight: 400; color: var(--text-muted); }
+@media (max-width: 640px) { .brandSub { display: none; } }
 .nav { display: flex; gap: 4px; }
 .iconLink {
   display: inline-flex; width: 36px; height: 36px; align-items: center; justify-content: center;

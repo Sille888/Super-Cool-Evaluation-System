@@ -1,15 +1,15 @@
 {
-  "name": "bewertung-worker",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
-    "db:create": "wrangler d1 create bewertung-db",
-    "db:init": "wrangler d1 execute bewertung-db --remote --file=./schema.sql",
-    "db:init:local": "wrangler d1 execute bewertung-db --local --file=./schema.sql"
-  },
-  "devDependencies": {
-    "wrangler": "^4.107.0"
-  }
+	"name": "sces-worker",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"dev": "wrangler dev",
+		"deploy": "wrangler deploy",
+		"db:create": "wrangler d1 create sces-db",
+		"db:init": "wrangler d1 execute sces-db --remote --file=./schema.sql",
+		"db:init:local": "wrangler d1 execute sces-db --local --file=./schema.sql"
+	},
+	"devDependencies": {
+		"wrangler": "^4.107.0"
+	}
 }
