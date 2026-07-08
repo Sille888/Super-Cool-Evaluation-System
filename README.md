@@ -46,6 +46,7 @@ Den Worker bei Cloudflare hochladen:
 ```bash
 npm run deploy
 ```
+> `frontend/.env.example` in `frontend/.env` umbenennen.
 
 > Die ausgegebene Worker-URL (z. B. `https://sces-api.example.workers.dev`) in `frontend/.env` als `VITE_API_URL` eingetragen.
 
