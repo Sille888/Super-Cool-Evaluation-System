@@ -1,5 +1,11 @@
 # SCES – Super Cool Evaluation System
 
+## ⚠️ Disclaimer
+
+Dieses Projekt wurde vollständig mit [Claude](https://claude.ai) (Anthropic) erstellt.
+Ich habe ehrlich gesagt keine Ahnung, was im Code wirklich passiert –
+aber es funktioniert. 🎉
+
 ## Voraussetzungen
 
 - Node.js **18** oder neuer
