@@ -1,8 +1,0 @@
-name = "sces-api"
-main = "src/index.js"
-compatibility_date = "2024-09-23"
-
-[[d1_databases]]
-binding = "DB"
-database_name = "sces-db"
-database_id = "e12beb02-1c36-4fdf-a507-7aa6878113ac"
