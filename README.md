@@ -1,5 +1,11 @@
 # SCES – Super Cool Evaluation System
 
+## ⚠️ Disclaimer
+
+Dieses Projekt wurde vollständig mit [Claude](https://claude.ai) (Anthropic) erstellt.
+Ich habe ehrlich gesagt keine Ahnung, was im Code wirklich passiert –
+aber es funktioniert. 🎉
+
 ## Voraussetzungen
 
 - Node.js **18** oder neuer
@@ -49,7 +55,7 @@ Den Worker bei Cloudflare hochladen:
 npm run deploy
 ```
 
-> `frontend/.env.example` in `frontend/.env` umbenennen
+> `frontend/.env.example` in `frontend/.env` umbenennen.
 
 > Die ausgegebene Worker-URL (z. B. `https://sces-api.example.workers.dev`) in `frontend/.env` als `VITE_API_URL` eingetragen.
 
