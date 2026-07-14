@@ -100,13 +100,17 @@ export default function AdminDashboard() {
 									<span>
 										<i className="fa-solid fa-pen-to-square" /> {p.submissions_count} Bewertungen
 									</span>
-									{p.evaluation_unlocked ? (
+									{p.display_mode === 'results' ? (
 										<span className={styles.unlocked}>
-											<i className="fa-solid fa-chart-simple" /> Auswertung frei
+											<i className="fa-solid fa-chart-simple" /> Auswertung
+										</span>
+									) : p.display_mode === 'form' ? (
+										<span>
+											<i className="fa-solid fa-pen-to-square" /> Bewertungsformular
 										</span>
 									) : (
 										<span>
-											<i className="fa-solid fa-lock" /> Auswertung gesperrt
+											<i className="fa-solid fa-circle-pause" /> Pausiert
 										</span>
 									)}
 								</div>

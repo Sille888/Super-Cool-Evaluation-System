@@ -7,10 +7,10 @@ CREATE TABLE IF NOT EXISTS settings (
 
 -- Projekte (z.B. "Vorträge 12c")
 CREATE TABLE IF NOT EXISTS projects (
-  id                  TEXT PRIMARY KEY,
-  name                TEXT NOT NULL,
-  evaluation_unlocked INTEGER NOT NULL DEFAULT 0,
-  created_at          INTEGER NOT NULL
+  id           TEXT PRIMARY KEY,
+  name         TEXT NOT NULL,
+  display_mode TEXT NOT NULL DEFAULT 'paused', -- 'paused' | 'form' | 'results'
+  created_at   INTEGER NOT NULL
 );
 
 -- Bewertungskriterien (gehören zu einem Projekt)

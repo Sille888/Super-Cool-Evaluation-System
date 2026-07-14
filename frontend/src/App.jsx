@@ -1,10 +1,14 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useParams } from 'react-router-dom';
 import AdminGate from './pages/AdminGate.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
 import AdminSettings from './pages/AdminSettings.jsx';
 import AdminProject from './pages/AdminProject.jsx';
-import EvaluationForm from './pages/EvaluationForm.jsx';
-import Results from './pages/Results.jsx';
+import PublicProject from './pages/PublicProject.jsx';
+
+function RedirectToProject() {
+	const { id } = useParams();
+	return <Navigate to={`/projects/${id}`} replace />;
+}
 
 export default function App() {
 	return (
@@ -36,8 +40,8 @@ export default function App() {
 				}
 			/>
 
-			<Route path="/projects/:id" element={<EvaluationForm />} />
-			<Route path="/projects/:id/auswertung" element={<Results />} />
+			<Route path="/projects/:id" element={<PublicProject />} />
+			<Route path="/projects/:id/auswertung" element={<RedirectToProject />} />
 
 			<Route path="*" element={<Navigate to="/admin" replace />} />
 		</Routes>

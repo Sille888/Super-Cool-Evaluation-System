@@ -7,7 +7,9 @@
 		"deploy": "wrangler deploy",
 		"db:create": "wrangler d1 create sces-db",
 		"db:init": "wrangler d1 execute sces-db --remote --file=./schema.sql",
-		"db:init:local": "wrangler d1 execute sces-db --local --file=./schema.sql"
+		"db:init:local": "wrangler d1 execute sces-db --local --file=./schema.sql",
+		"db:migrate": "wrangler d1 execute sces-db --remote --file=./migrations/0001_display_mode.sql",
+		"db:migrate:local": "wrangler d1 execute sces-db --local --file=./migrations/0001_display_mode.sql"
 	},
 	"devDependencies": {
 		"wrangler": "^4.107.0"

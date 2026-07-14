@@ -9,6 +9,12 @@ import SubmissionsView from './SubmissionsView.jsx';
 import { useToast } from '../ui/Toast.jsx';
 import styles from './ProjectSettings.module.css';
 
+const MODES = [
+	{ key: 'paused', label: 'Bewertung pausiert', icon: 'fa-circle-pause' },
+	{ key: 'form', label: 'Bewertungsformular', icon: 'fa-pen-to-square' },
+	{ key: 'results', label: 'Auswertung', icon: 'fa-chart-simple' },
+];
+
 export default function ProjectSettingsTab({ project, reload }) {
 	const [name, setName] = useState(project.name);
 	const [showSubs, setShowSubs] = useState(false);
@@ -19,8 +25,7 @@ export default function ProjectSettingsTab({ project, reload }) {
 	const toast = useToast();
 
 	const origin = window.location.origin;
-	const formUrl = `${origin}/projects/${project.id}`;
-	const resultUrl = `${origin}/projects/${project.id}/auswertung`;
+	const publicUrl = `${origin}/projects/${project.id}`;
 
 	function copy(text) {
 		navigator.clipboard.writeText(text).then(
@@ -33,7 +38,7 @@ export default function ProjectSettingsTab({ project, reload }) {
 		const canvas = qrCanvasRef.current;
 		if (!canvas) return;
 		const a = document.createElement('a');
-		a.download = `qr-bewertungsformular-${project.id}.png`;
+		a.download = `qr-projekt-${project.id}.png`;
 		a.href = canvas.toDataURL('image/png');
 		a.click();
 	}
@@ -49,11 +54,12 @@ export default function ProjectSettingsTab({ project, reload }) {
 		}
 	}
 
-	async function toggleUnlock() {
+	async function setMode(mode) {
+		if (mode === project.display_mode) return;
 		try {
-			await api.updateProject(project.id, { evaluation_unlocked: !project.evaluation_unlocked });
+			await api.updateProject(project.id, { display_mode: mode });
 			await reload();
-			toast(project.evaluation_unlocked ? 'Auswertung gesperrt.' : 'Auswertung freigeschaltet.', 'success');
+			toast('Anzeige aktualisiert.', 'success');
 		} catch (e) {
 			toast(e.message, 'error');
 		}
@@ -92,19 +98,27 @@ export default function ProjectSettingsTab({ project, reload }) {
 			</Card>
 
 			<Card className="stack">
-				<h3>Links</h3>
-				<LinkRow icon="fa-pen-to-square" label="Bewertungsformular" url={formUrl} onCopy={() => copy(formUrl)} onQr={() => setShowQr(true)} />
-				<LinkRow icon="fa-chart-simple" label="Auswertung" url={resultUrl} onCopy={() => copy(resultUrl)} />
+				<h3>Link</h3>
+				<LinkRow icon="fa-link" label="Projektlink" url={publicUrl} onCopy={() => copy(publicUrl)} onQr={() => setShowQr(true)} />
 			</Card>
 
-			<Card>
-				<div className="spread">
-					<div>
-						<h3>Auswertung</h3>
-					</div>
-					<Button variant={project.evaluation_unlocked ? 'secondary' : 'primary'} icon={project.evaluation_unlocked ? 'fa-lock' : 'fa-unlock'} onClick={toggleUnlock}>
-						{project.evaluation_unlocked ? 'Sperren' : 'Freischalten'}
-					</Button>
+			<Card className="stack">
+				<h3>Anzeige über den Link</h3>
+				<p className="muted" style={{ margin: '-6px 0 4px', fontSize: 14 }}>
+					Legt fest, was Teilnehmer:innen unter diesem Link sehen.
+				</p>
+				<div className={styles.modeRow}>
+					{MODES.map((m) => (
+						<button
+							key={m.key}
+							type="button"
+							className={`${styles.modeBtn} ${project.display_mode === m.key ? styles.modeBtnActive : ''}`}
+							onClick={() => setMode(m.key)}
+						>
+							<i className={`fa-solid ${m.icon}`} />
+							{m.label}
+						</button>
+					))}
 				</div>
 			</Card>
 
@@ -147,7 +161,7 @@ export default function ProjectSettingsTab({ project, reload }) {
 
 			<Modal
 				open={showQr}
-				title="QR-Code – Bewertungsformular"
+				title="QR-Code – Projektlink"
 				onClose={() => setShowQr(false)}
 				footer={
 					<>
@@ -161,8 +175,8 @@ export default function ProjectSettingsTab({ project, reload }) {
 				}
 			>
 				<div className={styles.qrWrap}>
-					<QrCode ref={qrCanvasRef} value={formUrl} size={240} />
-					<p className={styles.qrUrl}>{formUrl}</p>
+					<QrCode ref={qrCanvasRef} value={publicUrl} size={240} />
+					<p className={styles.qrUrl}>{publicUrl}</p>
 				</div>
 			</Modal>
 

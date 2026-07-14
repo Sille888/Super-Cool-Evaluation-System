@@ -1,16 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useMemo, useRef, useState } from 'react';
 import { api } from '../lib/api.js';
 import Button from '../components/ui/Button.jsx';
 import StarRating from '../components/ui/StarRating.jsx';
-import Spinner from '../components/ui/Spinner.jsx';
 import { useToast } from '../components/ui/Toast.jsx';
 import styles from './EvaluationForm.module.css';
 
-export default function EvaluationForm() {
-	const { id } = useParams();
-	const [project, setProject] = useState(null);
-	const [error, setError] = useState('');
+export default function EvaluationForm({ id, project }) {
 	const [active, setActive] = useState(0);
 	const [answers, setAnswers] = useState({}); // key -> {stars} | {text}
 	const [highlight, setHighlight] = useState(null); // key with missing answer
@@ -18,13 +13,6 @@ export default function EvaluationForm() {
 	const [done, setDone] = useState(false);
 	const refs = useRef({});
 	const toast = useToast();
-
-	useEffect(() => {
-		api
-			.getProject(id)
-			.then(setProject)
-			.catch((e) => setError(e.message));
-	}, [id]);
 
 	const key = (g, c) => `${g}::${c}`;
 	const setStars = (g, c, v) => {
@@ -103,20 +91,6 @@ export default function EvaluationForm() {
 			setSubmitting(false);
 		}
 	}
-
-	if (error)
-		return (
-			<div className={styles.statePage}>
-				<i className="fa-solid fa-circle-exclamation" />
-				<p>{error}</p>
-			</div>
-		);
-	if (!project)
-		return (
-			<div className="page">
-				<Spinner />
-			</div>
-		);
 
 	if (done)
 		return (

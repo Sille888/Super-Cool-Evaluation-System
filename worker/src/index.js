@@ -124,18 +124,19 @@ async function loadGroupsWithCriteria(env, projectId) {
 
 async function getProjectForForm(env, id) {
   const p = await env.DB.prepare(
-    "SELECT id, name, evaluation_unlocked FROM projects WHERE id = ?"
+    "SELECT id, name, display_mode FROM projects WHERE id = ?"
   )
     .bind(id)
     .first();
   if (!p) return err("Projekt nicht gefunden", 404);
-  const groups = await loadGroupsWithCriteria(env, id);
-  return json({ ...p, evaluation_unlocked: !!p.evaluation_unlocked, groups });
+  const groups = p.display_mode === "form" ? await loadGroupsWithCriteria(env, id) : [];
+  return json({ id: p.id, name: p.name, display_mode: p.display_mode, groups });
 }
 
 async function submitEvaluation(request, env, projectId) {
-  const p = await env.DB.prepare("SELECT id FROM projects WHERE id = ?").bind(projectId).first();
+  const p = await env.DB.prepare("SELECT id, display_mode FROM projects WHERE id = ?").bind(projectId).first();
   if (!p) return err("Projekt nicht gefunden", 404);
+  if (p.display_mode !== "form") return err("Die Bewertung ist derzeit nicht geöffnet", 403);
 
   const body = await request.json().catch(() => null);
   if (!body || !Array.isArray(body.answers)) return err("Ungültige Daten");
@@ -203,12 +204,12 @@ async function submitEvaluation(request, env, projectId) {
 
 async function getResults(env, projectId) {
   const p = await env.DB.prepare(
-    "SELECT id, name, evaluation_unlocked FROM projects WHERE id = ?"
+    "SELECT id, name, display_mode FROM projects WHERE id = ?"
   )
     .bind(projectId)
     .first();
   if (!p) return err("Projekt nicht gefunden", 404);
-  if (!p.evaluation_unlocked) return err("Auswertung noch nicht freigeschaltet", 403);
+  if (p.display_mode !== "results") return err("Auswertung noch nicht freigeschaltet", 403);
 
   return json(await computeResults(env, projectId, p.name));
 }
@@ -331,14 +332,14 @@ async function changePassword(request, env) {
 async function listProjects(env) {
   const rows = (
     await env.DB.prepare(
-      "SELECT id, name, evaluation_unlocked, created_at FROM projects ORDER BY created_at DESC"
+      "SELECT id, name, display_mode, created_at FROM projects ORDER BY created_at DESC"
     ).all()
   ).results;
   const out = [];
   for (const p of rows) {
     const g = (await env.DB.prepare("SELECT COUNT(*) AS n FROM groups WHERE project_id = ?").bind(p.id).first()).n;
     const s = (await env.DB.prepare("SELECT COUNT(*) AS n FROM submissions WHERE project_id = ?").bind(p.id).first()).n;
-    out.push({ ...p, evaluation_unlocked: !!p.evaluation_unlocked, groups_count: g, submissions_count: s });
+    out.push({ ...p, groups_count: g, submissions_count: s });
   }
   return json(out);
 }
@@ -349,7 +350,7 @@ async function createProject(request, env) {
   if (!name) return err("Name fehlt");
   const id = genId(8);
   await env.DB.prepare(
-    "INSERT INTO projects (id, name, evaluation_unlocked, created_at) VALUES (?, ?, 0, ?)"
+    "INSERT INTO projects (id, name, display_mode, created_at) VALUES (?, ?, 'paused', ?)"
   )
     .bind(id, name, timestamp())
     .run();
@@ -388,7 +389,7 @@ async function duplicateProject(env, id) {
 
   const batch = [
     env.DB.prepare(
-      "INSERT INTO projects (id, name, evaluation_unlocked, created_at) VALUES (?, ?, 0, ?)"
+      "INSERT INTO projects (id, name, display_mode, created_at) VALUES (?, ?, 'paused', ?)"
     ).bind(newId, p.name + " (Kopie)", now),
   ];
 
@@ -434,7 +435,7 @@ async function duplicateProject(env, id) {
 
 async function getProjectAdmin(env, id) {
   const p = await env.DB.prepare(
-    "SELECT id, name, evaluation_unlocked FROM projects WHERE id = ?"
+    "SELECT id, name, display_mode FROM projects WHERE id = ?"
   )
     .bind(id)
     .first();
@@ -483,12 +484,14 @@ async function getProjectAdmin(env, id) {
   return json({
     id: p.id,
     name: p.name,
-    evaluation_unlocked: !!p.evaluation_unlocked,
+    display_mode: p.display_mode,
     submissions_count: subs,
     criteria,
     groups,
   });
 }
+
+const DISPLAY_MODES = ["paused", "form", "results"];
 
 async function updateProject(request, env, id) {
   const body = await request.json().catch(() => ({}));
@@ -498,9 +501,10 @@ async function updateProject(request, env, id) {
     sets.push("name = ?");
     vals.push(body.name.trim());
   }
-  if (typeof body.evaluation_unlocked === "boolean") {
-    sets.push("evaluation_unlocked = ?");
-    vals.push(body.evaluation_unlocked ? 1 : 0);
+  if (typeof body.display_mode === "string") {
+    if (!DISPLAY_MODES.includes(body.display_mode)) return err("Ungültiger display_mode");
+    sets.push("display_mode = ?");
+    vals.push(body.display_mode);
   }
   if (!sets.length) return err("Nichts zu aktualisieren");
   vals.push(id);

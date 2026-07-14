@@ -1,35 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { api } from '../lib/api.js';
-import Spinner from '../components/ui/Spinner.jsx';
 import styles from './Results.module.css';
 
-export default function Results() {
-	const { id } = useParams();
-	const [data, setData] = useState(null);
-	const [error, setError] = useState(null);
-
-	useEffect(() => {
-		api
-			.getResults(id)
-			.then(setData)
-			.catch((e) => setError(e));
-	}, [id]);
-
-	if (error)
-		return (
-			<div className={styles.statePage}>
-				<i className={`fa-solid ${error.status === 403 ? 'fa-lock' : 'fa-circle-exclamation'}`} />
-				<p>{error.status === 403 ? 'Die Auswertung ist noch nicht freigeschaltet.' : error.message}</p>
-			</div>
-		);
-	if (!data)
-		return (
-			<div className="page">
-				<Spinner />
-			</div>
-		);
-
+export default function Results({ data }) {
 	const maxPct = Math.max(1, ...data.totals.map((t) => t.percentage ?? 0));
 	const medals = ['fa-trophy', 'fa-medal', 'fa-award'];
 
